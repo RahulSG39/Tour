@@ -55,7 +55,7 @@
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg" id="top-nav">
+    <nav class="navbar navbar-expand-lg sticky-top" id="top-nav">
       <!-- <img src="IMAGES/logo.png" alt="" height="30" width="30"> -->
       <a class="navbar-brand" href="#">TMS</a>
       <div class="right-elements">
@@ -81,14 +81,23 @@
               <a class="nav-link" href="./packages.php">Packages</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Terms And Conditions</a>
+              <a class="nav-link" href="./terms.php">Terms</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About Us</a>
+              <a class="nav-link" href="./about.php">About Us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="./contact.php">Contact</a>
             </li>
+            <?php if(session_status() == PHP_SESSION_NONE){?>
+            <li class="nav-item">
+              <a class="nav-link" href="Reg_Sign.php">Sign In</a>
+            </li>
+            <?php } else if(basename($_SERVER['PHP_SELF'])!='Reg_Sign.php') {?>
+            <li class="nav-item">
+              <a class="nav-link" href="logout.php">Sign Out</a>
+            </li>
+            <?php }?>
           </ul>
         </div>
       </div>

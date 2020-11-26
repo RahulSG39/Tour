@@ -2,6 +2,7 @@
     session_start();
     $email=$name=$uname=$password='';
     $errors = array('email' => '', 'name' => '', 'password' => '', 'confirm_password' => '');
+    $set=0;
     if(isset($_POST['reg'])){
 
         $conn = mysqli_connect('localhost','admin','admin1234','tour');
@@ -71,7 +72,7 @@
             $sql = "INSERT INTO tblusers(FullName, EmailId, Password) VALUES('$name','$email','$password')";
 
             if (mysqli_query($conn, $sql)) {
-                echo "New record created successfully";
+                echo "<p style='background-color: lightgreen; padding: 10px;'>Success! Please login</p>";
             } else {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }

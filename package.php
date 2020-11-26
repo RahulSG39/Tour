@@ -1,16 +1,14 @@
 <?php
 session_start();
 $email = $_SESSION["email"];
-// echo $email;
 $pid = intval($_GET['pkgid']);
-
 
 $conn = mysqli_connect('localhost','admin','admin1234','tour');
 
 if(!$conn){
     echo "Connection Error".mysqli_connect_error();
 }
-// $package = $_POST['pac'];
+
 
 $sql1 = "SELECT * FROM tbltourpackages WHERE PackageId= $pid";
 
@@ -18,7 +16,6 @@ $result1 = mysqli_query($conn, $sql1);
 
 $packages = mysqli_fetch_all($result1, MYSQLI_ASSOC);
 
-// print_r($packages);
 $package_name = $packages[0]['PackageName'];
 $package_price = $packages[0]['PackagePrice'];
 $package_details = $packages[0]['PackageDetails'];
@@ -32,19 +29,12 @@ if(isset($_POST['sub'])){
     if(!$conn){
         echo "Connection Error".mysqli_connect_error();
     }
-    // $package = $_POST['pac'];
 
     $sql = "INSERT INTO tblbooking (UserEmail,package) VALUE ('{$_SESSION["email"]}','{$package_name}')";
 
     $set =1;
 
-    // echo $package_name;
-
     $result = mysqli_query($conn, $sql);
-
-    // $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    // mysqli_free_result($result);
 }
 if(isset($_POST['sub2'])){
     mysqli_close($conn);
@@ -58,7 +48,7 @@ if(isset($_POST['sub2'])){
     <?php include('./includes/header.php'); ?>
     <link rel="stylesheet" href="CSS/package.css" />
     <?php if($set == 1){ ?>
-        <p style="background-color: lightgreen; padding: 10px;">Added Successfully</p>  
+        <p style="background-color: lightgreen; padding: 10px;"><i class="fa fa-check"></i>Added Successfully</p>  
     <?php }  ?>
     <div class="container1">
         <form method="POST">
