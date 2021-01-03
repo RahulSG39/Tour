@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Heebo&family=Roboto+Slab&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");
+
 * {
   padding: 0;
   margin: 0;
@@ -78,6 +80,7 @@ form h2 {
 
 .price-font {
   color: cadetblue;
+  margin-right: 5px;
 }
 
 .price {
@@ -112,6 +115,11 @@ input[type="submit"]:nth-child(1):hover {
 input[type="submit"]:nth-child(2):hover {
   background: rgb(161, 175, 175);
   color: black;
+}
+
+h2 .fas {
+  font-size: 1rem;
+  margin-left: 5px;
 }
 
 @media screen and (max-width: 800px) {

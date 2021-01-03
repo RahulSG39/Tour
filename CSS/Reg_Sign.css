@@ -47,7 +47,7 @@ form {
 .login {
   height: 100%;
   text-align: center;
-  border-left: 1px solid black;
+  /* border-left: 1px solid white; */
   padding: 50px;
   margin-left: 15px;
 }
@@ -111,6 +111,11 @@ h1 {
 }
 
 .signin-btn:hover {
+  background: black;
+  color: white;
+}
+
+.log:hover {
   background: black;
   color: white;
 }

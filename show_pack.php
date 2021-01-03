@@ -8,9 +8,16 @@ $conn = mysqli_connect('localhost','admin','admin1234','tour');
 
     $sql = "SELECT package FROM tblbooking WHERE UserEmail = '{$_SESSION['email']}'";
 
+    $sql2 = "SELECT PackageId, PackageName, PackagePrice FROM tbltourpackages";
+
     $result = mysqli_query($conn, $sql);
 
+    $result2 = mysqli_query($conn, $sql2);
+
     $packages = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+    $pkgs = mysqli_fetch_all($result2,MYSQLI_ASSOC);
+
 
     $set=0;
 
@@ -40,22 +47,32 @@ $conn = mysqli_connect('localhost','admin','admin1234','tour');
    <h1 class="first-head">Cart</h1>
     <?php if($set==1)
         {
-            echo "<p style='color: white; background-color: gray ;padding: 40px; width: 60%; margin: auto; text-align: center; font-size: 1.5rem;'>Cart Empty</p>";
+            echo "<pre style='color: white; background-color: gray ;padding: 40px; width: 60%; margin: auto; text-align: center; font-size: 1.5rem;'>Cart Empty</pre>";
         }
     ?>
     <link rel="stylesheet" href="CSS/show_pack.css" />
     <?php 
-    foreach($tours as $tour){ ?>
-        <div class="package">
-            <div class="card">
-            <form action="" method="POST">
-                    <?php echo $tour; ?>
-                    <a href="delete.php?id_name=<?php echo $tour;?>"><i class="fa fa-times"></i></a>
-            </form>
-            </div>         
-        </div>
-    <?php } ?>
+    $total = 0;
+    foreach($tours as $tour){
+        foreach($pkgs as $pkg=>$p){ 
+           if($p["PackageName"] == $tour){
+                $total += $p["PackagePrice"]; 
+                ?>
+                <div class="package">
+                    <div class="card">
+                    <form action="" method="POST">
+                            <a class="tour_name" href="package.php?pkgid=<?php echo $p["PackageId"];?>"><?php echo $tour;?></a>
+                            <span class="price"><i class="fas fa-rupee-sign"></i><?php echo number_format($p["PackagePrice"]); ?></span>
+                            <a href="delete.php?id_name=<?php echo $tour;?>"><i class="fa fa-times"></i></a>
+                    </form>
+                    </div>         
+                </div>
+    <?php 
+        } } }
+        $_SESSION["total"] = $total;    
+    ?>
 
+<span class="total"><h1 class="spanh1">Total: <i class="fas fa-rupee-sign"></i><?php echo number_format($total);?></h1></span>
 
     <form action="" method="POST">
         <input type="submit" name="logout" id="" value="Logout" />

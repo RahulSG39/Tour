@@ -3,6 +3,11 @@
     $email=$name=$uname=$password='';
     $errors = array('email' => '', 'name' => '', 'password' => '', 'confirm_password' => '');
     $set=0;
+
+    if(isset($_POST['log'])){
+        header('Location: login.php');
+    }
+
     if(isset($_POST['reg'])){
 
         $conn = mysqli_connect('localhost','admin','admin1234','tour');
@@ -69,10 +74,45 @@
                 echo "Connection Error".mysqli_connect_error();
             }
 
+            $to_email = $email;
+            $subject = "Welcome to TMS";
+            $body = "Hi, Welcome $name ! This is a simple project to showcase the functionalities of MySQL and PHP. :) Enjoy!";
+            $headers = "From: rahulgirish39@gmail.com";
+    
+            if (mail($to_email, $subject, $body, $headers)) {
+            ?>
+                <script>
+                    alert("A mail has been sent to <?php echo $to_email; ?>...");
+                </script>
+    
+            <?php
+    
+            } else {
+                echo "Email sending failed...";
+            }
+
+
             $sql = "INSERT INTO tblusers(FullName, EmailId, Password) VALUES('$name','$email','$password')";
 
             if (mysqli_query($conn, $sql)) {
-                echo "<p style='background-color: lightgreen; padding: 10px;'>Success! Please login</p>";
+                echo "<p id='success_para'>Success! Please login</p>";
+            ?>
+            <script>
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        alert("Working");
+                        document.getElementById('success_para').style.backgroundColor = "lightgreen";
+                        document.getElementById('success_para').style.padding = "5px";
+                    }
+                };
+                xhttp.open("GET", "Reg_Sign.php", true);
+                xhttp.send(null);
+            
+            </script>
+
+
+            <?php    
             } else {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }
@@ -81,28 +121,6 @@
         }
         
     }
-
-    if(isset($_POST['sign_in'])){
-
-        $conn = mysqli_connect('localhost','admin','admin1234','tour');
-
-        if(!$conn){
-            echo "Connection Error".mysqli_connect_error();
-        }
-        $login_email = $_POST['login_email'];
-        $login_password = $_POST['login_password'];
-
-        $sql1 = "SELECT * FROM tblusers WHERE EmailId = '$login_email' AND Password = '$login_password'";
-
-        if (mysqli_num_rows(mysqli_query($conn, $sql1)) > 0) {
-            $_SESSION["email"] = $_POST["login_email"];
-            header('Location: packages.php');
-        } else {
-            $set = 1;           
-        }
-
-    }
-
 
 
 ?>
@@ -118,7 +136,6 @@
             <div class="btns">
                 <div class="btns-style">
                     <button class="reg-page-btn" onclick="signup()">Sign Up</button>
-                    <button class="signin-page-btn" onclick="login()">Log in</button>
                 </div>
             </div>
       <form method="POST">
@@ -129,12 +146,7 @@
           <input type="password" placeholder="Password" name="password" /><?php echo $errors['password']?>
           <input type="password" placeholder="Confirm Password" name="confirm_password"/><?php echo $errors['confirm_password']?>
           <input type="submit" class="reg-btn" value="Sign Up" name="reg"/>
-        </div>
-        <div id="login" class="login">
-          <h1>Login</h1>
-          <input type="email" placeholder="Email" name="login_email" />
-          <input type="password" placeholder="Password" name="login_password"/>
-          <input type="submit" class="signin-btn" name="sign_in" value="Sign in"/>
+          <input type="submit" class="log" name="log" value="Log In">
         </div>
       </form>
 
@@ -148,12 +160,6 @@
             this.event.preventDefault();
             y.style.display = "none";
             x.style.display = "block";
-        }
-        function login(event){
-            this.event.preventDefault();
-            x.style.display = "none";
-            y.style.borderLeft = "none";
-            y.style.display = "block";
         }
     </script>
 
